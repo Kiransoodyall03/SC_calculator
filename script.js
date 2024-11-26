@@ -26,9 +26,6 @@ function clearDisplay() {
 // Calculate the Result
 function calculate() {
   try {
-    if (isInvalidExpression(expression)) {
-      throw new Error("Invalid Expression");
-    }
     const result = evaluateExpression(expression);
     document.getElementById("display").value = result;
     expression = result.toString();
@@ -69,7 +66,7 @@ function evaluateSimpleExpression(expr) {
         case "sqr":
           return Math.pow(value, 2);
         case "sqrt":
-          if (value < 0) throw new Error('invalid input');
+          if (value < 0) throw new Error('invalid');
           return Math.pow(value,0.5);
       default:
         throw new Error(`Unknown function: ${func}`);
