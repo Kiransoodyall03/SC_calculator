@@ -1,5 +1,5 @@
-let expression = ""; // Logical expression for calculation
-let displayExpression = ""; // Visual representation for the user
+let expression = "";
+let displayExpression = "";
 
 // Button Press
 function press(value) {
@@ -26,9 +26,6 @@ function clearDisplay() {
 // Calculate the Result
 function calculate() {
   try {
-    if (isInvalidExpression(expression)) {
-      throw new Error("Invalid Expression");
-    }
     const result = evaluateExpression(expression);
     document.getElementById("display").value = result;
     expression = result.toString();
@@ -55,7 +52,6 @@ function evaluateExpression(expr) {
 
 // Evaluate Simple Expression
 function evaluateSimpleExpression(expr) {
-  // Handle trigonometric functions without visual parentheses
   expr = expr.replace(/(sin|cos|tan)\s*(-?\d+\.?\d*)/g, (match, func, arg) => {
     const value = parseFloat(arg);
     const radians = degreesToRadians(value);
