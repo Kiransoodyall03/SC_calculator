@@ -1,19 +1,26 @@
-let expression = "";
+let expression = ""; // Logical expression for calculation
+let displayExpression = ""; // Visual representation for the user
 
 // Button Press
 function press(value) {
   if (value === "(" && /\d$/.test(expression)) {
     expression += "*" + value;
+    displayExpression += "*" + value;
+  } else if (["sin", "cos", "tan"].includes(value)) {
+    expression += value;
+    displayExpression += value + "(";
   } else {
     expression += value;
+    displayExpression += value;
   }
-  document.getElementById("display").value = expression;
+  document.getElementById("display").value = displayExpression;
 }
 
 // Clear Display
 function clearDisplay() {
   expression = "";
-  document.getElementById("display").value = expression;
+  displayExpression = "";
+  document.getElementById("display").value = displayExpression;
 }
 
 // Calculate the Result
@@ -25,6 +32,7 @@ function calculate() {
     const result = evaluateExpression(expression);
     document.getElementById("display").value = result;
     expression = result.toString();
+    displayExpression = result.toString();
   } catch (error) {
     document.getElementById("display").value = error.message || "Error";
   }
@@ -47,12 +55,10 @@ function evaluateExpression(expr) {
 
 // Evaluate Simple Expression
 function evaluateSimpleExpression(expr) {
-  // Handle trigonometric functions
-  expr = expr.replace(/(sin|cos|tan)\s*\(([^)]+)\)/g, (match, func, arg) => {
-    const evaluatedArg = evaluateSimpleExpression(arg); // Recursively evaluate inner expressions
-    const value = parseFloat(evaluatedArg);
-    if (isNaN(value)) throw new Error(`Invalid argument for ${func}`);
-    const radians = degreesToRadians(value); // Convert degrees to radians
+  // Handle trigonometric functions without visual parentheses
+  expr = expr.replace(/(sin|cos|tan)\s*(-?\d+\.?\d*)/g, (match, func, arg) => {
+    const value = parseFloat(arg);
+    const radians = degreesToRadians(value);
     switch (func) {
       case "sin":
         return Math.sin(radians);
