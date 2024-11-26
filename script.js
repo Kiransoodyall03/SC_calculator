@@ -57,17 +57,17 @@ function evaluateSimpleExpression(expr) {
     const radians = degreesToRadians(value);
     switch (func) {
       case "sin":
-        return Math.sin(radians);
+        return Math.sin(radians).toFixed(5);
       case "cos":
-        return Math.cos(radians);
+        return Math.cos(radians).toFixed(5);
       case "tan":
         if (Math.cos(radians) === 0) throw new Error("Undefined tan value");
-        return Math.tan(radians);
+        return Math.tan(radians).toFixed(5);
         case "sqr":
-          return Math.pow(value, 2);
+          return Math.pow(value, 2).toFixed(5);
         case "sqrt":
           if (value < 0) throw new Error('invalid');
-          return Math.pow(value,0.5);
+          return Math.pow(value,0.5).toFixed(5);
       default:
         throw new Error(`Unknown function: ${func}`);
     }
