@@ -43,11 +43,16 @@ function evaluateExpression(expr) {
 }
 // Evaluate Simple Expression
 function evaluateSimpleExpression(expr) {
+  // Debug original expression
+  console.log("Evaluating Expression:", expr);
+
   // Handle trigonometric functions with degrees
   expr = expr.replace(/(sin|cos|tan)\s*\(([^)]+)\)/g, (match, func, arg) => {
     const value = parseFloat(evaluateSimpleExpression(arg)); // Evaluate inner expression
+    console.log(`Function: ${func}, Argument (Degrees): ${value}`);
     if (isNaN(value)) throw new Error(`Invalid argument for ${func}`);
     const radians = degreesToRadians(value); // Convert degrees to radians
+    console.log(`Function: ${func}, Argument (Radians): ${radians}`);
     switch (func) {
       case 'sin': return Math.sin(radians);
       case 'cos': return Math.cos(radians);
@@ -57,6 +62,9 @@ function evaluateSimpleExpression(expr) {
       default: throw new Error(`Unknown function: ${func}`);
     }
   });
+
+  // Debug intermediate expression
+  console.log("After Trig Functions:", expr);
 
   // Handle multiplication and division
   expr = expr.replace(/(-?\d+\.?\d*)\s*([*/])\s*(-?\d+\.?\d*)/g, (match, p1, operator, p2) => {
@@ -69,6 +77,9 @@ function evaluateSimpleExpression(expr) {
     }
   });
 
+  // Debug after multiplication/division
+  console.log("After Mul/Div:", expr);
+
   // Handle addition and subtraction
   expr = expr.replace(/(-?\d+\.?\d*)\s*([+-])\s*(-?\d+\.?\d*)/g, (match, p1, operator, p2) => {
     const num1 = parseFloat(p1);
@@ -76,8 +87,12 @@ function evaluateSimpleExpression(expr) {
     return operator === '+' ? num1 + num2 : num1 - num2;
   });
 
+  // Debug final result
+  console.log("After Add/Sub:", expr);
+
   return parseFloat(expr);
 }
+
 
 function degreesToRadians(degrees) {
   return degrees * (Math.PI / 180);
