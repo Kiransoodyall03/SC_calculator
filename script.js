@@ -6,11 +6,10 @@ function press(value) {
   if (value === "(" && /\d$/.test(expression)) {
     expression += "*" + value;
     displayExpression += "*" + value;
-  } else if (["sqr", "sqrt"].includes(value)) {
+  } else if (["sqr", "sqrt", "sin", "cos", "tan"].includes(value)) {
     expression += value;
     displayExpression += value + "(";
-  } 
-  else {
+  } else {
     expression += value;
     displayExpression += value;
   }
@@ -42,7 +41,7 @@ function evaluateExpression(expr) {
     const startIdx = expr.lastIndexOf("(");
     const endIdx = expr.indexOf(")", startIdx);
 
-    if (endIdx === -1) throw new Error("Brackets Fucked");
+    if (endIdx === -1) throw new Error("Mismatched Parentheses");
 
     const innerExpr = expr.substring(startIdx + 1, endIdx);
     const innerResult = evaluateSimpleExpression(innerExpr);
@@ -53,8 +52,9 @@ function evaluateExpression(expr) {
 
 // Evaluate Simple Expression
 function evaluateSimpleExpression(expr) {
-  expr = expr.replace(/(sin|cos|tan)\s*(-?\d+\.?\d*)/g, (match, func, arg) => {
-    const value = parseFloat(arg);
+  // Handle trigonometric functions and sqr/sqrt with logical calculations
+  expr = expr.replace(/(sin|cos|tan|sqrt|sqr)\s*\(([^)]+)\)/g, (match, func, arg) => {
+    const value = parseFloat(evaluateSimpleExpression(arg)); // Evaluate inner expression
     const radians = degreesToRadians(value);
     switch (func) {
       case "sin":
@@ -64,11 +64,11 @@ function evaluateSimpleExpression(expr) {
       case "tan":
         if (Math.cos(radians) === 0) throw new Error("Undefined tan value");
         return Math.tan(radians).toFixed(5);
-        case "sqr":
-          return Math.pow(value, 2).toFixed(5);
-        case "sqrt":
-          if (value < 0) throw new Error('invalid');
-          return Math.pow(value,0.5).toFixed(5);
+      case "sqrt":
+        if (value < 0) throw new Error("Invalid input for sqrt");
+        return Math.sqrt(value).toFixed(5);
+      case "sqr":
+        return Math.pow(value, 2).toFixed(5);
       default:
         throw new Error(`Unknown function: ${func}`);
     }
