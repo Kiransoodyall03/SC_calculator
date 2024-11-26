@@ -29,11 +29,15 @@ body {
 .left-image {
   background-image: url("cat_left.jpg");
   margin-right: 20px;
+  width: 200%;
+  height: 200%;
 }
 
 .right-image {
   background-image: url("cat_right.avif");
   margin-left: 20px;
+  width: 200%;
+  height: 200%;
 }
 
 .calculator {
