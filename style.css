@@ -19,8 +19,8 @@ body {
 }
 
 .side-image {
-  width: 100px;
-  height: 150px;
+  width: 150px; 
+  height: 200px;
   object-fit: contain;
   background-size: cover;
   background-position: center;
@@ -29,15 +29,11 @@ body {
 .left-image {
   background-image: url("cat_left.jpg");
   margin-right: 20px;
-  width: 200%;
-  height: 200%;
 }
 
 .right-image {
   background-image: url("cat_right.avif");
   margin-left: 20px;
-  width: 200%;
-  height: 200%;
 }
 
 .calculator {
