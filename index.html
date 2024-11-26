@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,43 +7,30 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="calculator">
-    <input type="text" id="display" disabled>
-    <div class="buttons">
-      <!-- Number Buttons -->
-      <button onclick="press('7')">7</button>
-      <button onclick="press('8')">8</button>
-      <button onclick="press('9')">9</button>
-
-      <button onclick="press('4')">4</button>
-      <button onclick="press('5')">5</button>
-      <button onclick="press('6')">6</button>
-
-      <button onclick="press('1')">1</button>
-      <button onclick="press('2')">2</button>
-      <button onclick="press('3')">3</button>
-
-      <!-- Zero and other functions -->
-      <button onclick="press('0')" class="zero">0</button>
-      <button onclick="press('(')">(</button>
-      <button onclick="press(')')">)</button>
-
-      <button onclick="press('.')">.</button>
-      <button onclick="press('+')">+</button>
-      <button onclick="press('-')">-</button>
-
-      <button onclick="press('*')">×</button>
-      <button onclick="press('/')">÷</button>
-      <button onclick="press('sqrt(')">√</button>
-      <button onclick="press('sqr(')"> x^(2)</button>
-      <button onclick="calculate()">=</button>
-
-      <button onclick="press('sin(')">sin</button>
-      <button onclick="press('cos(')">cos</button>
-      <button onclick="press('tan(')">tan</button>
-
-      <button onclick="clearDisplay()" class="clear">C</button>
+  <div class="calculator-container">
+    <img src="left-image.jpg" alt="Left Image" class="side-image left-image">
+    <div class="calculator">
+      <input type="text" id="display" disabled>
+      <div class="buttons">
+        <button onclick="press('7')">7</button>
+        <button onclick="press('8')">8</button>
+        <button onclick="press('9')">9</button>
+        <button onclick="press('4')">4</button>
+        <button onclick="press('5')">5</button>
+        <button onclick="press('6')">6</button>
+        <button onclick="press('1')">1</button>
+        <button onclick="press('2')">2</button>
+        <button onclick="press('3')">3</button>
+        <button onclick="press('0')" class="zero">0</button>
+        <button onclick="press('+')">+</button>
+        <button onclick="press('-')">-</button>
+        <button onclick="press('*')">×</button>
+        <button onclick="press('/')">÷</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="clearDisplay()" class="clear">C</button>
+      </div>
     </div>
+    <img src="right-image.jpg" alt="Right Image" class="side-image right-image">
   </div>
   <script src="script.js"></script>
 </body>

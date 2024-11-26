@@ -6,7 +6,7 @@ function press(value) {
   if (value === "(" && /\d$/.test(expression)) {
     expression += "*" + value;
     displayExpression += "*" + value;
-  } else if (["sqr", "sqrt","tan","sin","cos"].includes(value)) {
+  } else if (["tan","sin","cos"].includes(value)) {
     expression += value;
     displayExpression += value + "(";
   } 
