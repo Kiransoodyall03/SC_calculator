@@ -41,12 +41,13 @@ function evaluateExpression(expr) {
   }
   return evaluateSimpleExpression(expr);
 }
-
+// Evaluate Simple Expression
 function evaluateSimpleExpression(expr) {
+  // Handle trigonometric functions with degrees
   expr = expr.replace(/(sin|cos|tan)\s*\(([^)]+)\)/g, (match, func, arg) => {
-    const value = parseFloat(evaluateSimpleExpression(arg));
+    const value = parseFloat(evaluateSimpleExpression(arg)); // Evaluate inner expression
     if (isNaN(value)) throw new Error(`Invalid argument for ${func}`);
-    const radians = degreesToRadians(value);
+    const radians = degreesToRadians(value); // Convert degrees to radians
     switch (func) {
       case 'sin': return Math.sin(radians);
       case 'cos': return Math.cos(radians);
@@ -57,7 +58,7 @@ function evaluateSimpleExpression(expr) {
     }
   });
 
-  //multiplication and division
+  // Handle multiplication and division
   expr = expr.replace(/(-?\d+\.?\d*)\s*([*/])\s*(-?\d+\.?\d*)/g, (match, p1, operator, p2) => {
     const num1 = parseFloat(p1);
     const num2 = parseFloat(p2);
@@ -68,7 +69,7 @@ function evaluateSimpleExpression(expr) {
     }
   });
 
-  //addition and subtraction
+  // Handle addition and subtraction
   expr = expr.replace(/(-?\d+\.?\d*)\s*([+-])\s*(-?\d+\.?\d*)/g, (match, p1, operator, p2) => {
     const num1 = parseFloat(p1);
     const num2 = parseFloat(p2);
