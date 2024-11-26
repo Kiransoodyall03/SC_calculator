@@ -1,4 +1,3 @@
-
 let expression = '';
 
 // Button Press
@@ -16,8 +15,6 @@ function clearDisplay() {
   expression = '';
   document.getElementById('display').value = expression;
 }
-
-// Calculate Result
 function calculate() {
   try {
     if (isInvalidExpression(expression)) {
@@ -31,7 +28,6 @@ function calculate() {
   }
 }
 
-// Evaluate Expression
 function evaluateExpression(expr) {
   while (expr.includes('(')) {
     const startIdx = expr.lastIndexOf('(');
@@ -46,20 +42,22 @@ function evaluateExpression(expr) {
   return evaluateSimpleExpression(expr);
 }
 
-// Evaluate Simple Expression
 function evaluateSimpleExpression(expr) {
-  expr = expr.replace(/(sqrt|sin|cos|tan)\s*\(([^)]+)\)/g, (match, func, arg) => {
+  expr = expr.replace(/(sin|cos|tan)\s*\(([^)]+)\)/g, (match, func, arg) => {
     const value = parseFloat(evaluateSimpleExpression(arg));
     if (isNaN(value)) throw new Error(`Invalid argument for ${func}`);
+    const radians = degreesToRadians(value);
     switch (func) {
-      case 'sqrt': return Math.sqrt(value);
-      case 'sin': return Math.sin(value * Math.PI / 180);
-      case 'cos': return Math.cos(value * Math.PI / 180);
-      case 'tan': return Math.tan(value * Math.PI / 180);
+      case 'sin': return Math.sin(radians);
+      case 'cos': return Math.cos(radians);
+      case 'tan': 
+        if (Math.cos(radians) === 0) throw new Error("Undefined tan value");
+        return Math.tan(radians);
       default: throw new Error(`Unknown function: ${func}`);
     }
   });
 
+  //multiplication and division
   expr = expr.replace(/(-?\d+\.?\d*)\s*([*/])\s*(-?\d+\.?\d*)/g, (match, p1, operator, p2) => {
     const num1 = parseFloat(p1);
     const num2 = parseFloat(p2);
@@ -70,6 +68,7 @@ function evaluateSimpleExpression(expr) {
     }
   });
 
+  //addition and subtraction
   expr = expr.replace(/(-?\d+\.?\d*)\s*([+-])\s*(-?\d+\.?\d*)/g, (match, p1, operator, p2) => {
     const num1 = parseFloat(p1);
     const num2 = parseFloat(p2);
@@ -77,6 +76,10 @@ function evaluateSimpleExpression(expr) {
   });
 
   return parseFloat(expr);
+}
+
+function degreesToRadians(degrees) {
+  return degrees * (Math.PI / 180);
 }
 
 // Validate Expression
