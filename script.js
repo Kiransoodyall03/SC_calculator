@@ -26,6 +26,9 @@ function clearDisplay() {
 // Calculate the Result
 function calculate() {
   try {
+    if (isInvalidExpression(expression)) {
+      throw new Error("Invalid Expression");
+    }
     const result = evaluateExpression(expression);
     document.getElementById("display").value = result;
     expression = result.toString();
@@ -41,7 +44,7 @@ function evaluateExpression(expr) {
     const startIdx = expr.lastIndexOf("(");
     const endIdx = expr.indexOf(")", startIdx);
 
-    if (endIdx === -1) throw new Error("Mismatched Parentheses");
+    if (endIdx === -1) throw new Error("Brackets Fucked");
 
     const innerExpr = expr.substring(startIdx + 1, endIdx);
     const innerResult = evaluateSimpleExpression(innerExpr);
@@ -63,6 +66,11 @@ function evaluateSimpleExpression(expr) {
       case "tan":
         if (Math.cos(radians) === 0) throw new Error("Undefined tan value");
         return Math.tan(radians);
+        case "sqr":
+          return Math.pow(value, 2);
+        case "sqrt":
+          if (value < 0) throw new Error('invalid input');
+          return Math.pow(value,0.5);
       default:
         throw new Error(`Unknown function: ${func}`);
     }
@@ -96,7 +104,6 @@ function degreesToRadians(degrees) {
 
 // Validate Expression
 function isInvalidExpression(expr) {
-  if (/[^0-9+\-*/().\sincostan]/.test(expr)) return true;
   if (/[+\-*/]{2,}/.test(expr)) return true;
   const openCount = (expr.match(/\(/g) || []).length;
   const closeCount = (expr.match(/\)/g) || []).length;
